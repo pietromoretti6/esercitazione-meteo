@@ -108,6 +108,11 @@ button:hover {
   border-color: #b15d3f;
 }
 
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
 input:focus-visible,
 button:focus-visible {
   outline: 3px solid #d68b68;
@@ -123,6 +128,22 @@ button:focus-visible {
   margin: 0;
   color: #5b7180;
   text-align: center;
+}
+
+.location-result {
+  padding: 1rem 0;
+}
+
+.location-result h2 {
+  margin: 0.25rem 0;
+  font-size: clamp(1.75rem, 5vw, 3rem);
+}
+
+.location-result p:last-child {
+  margin: 0;
+  color: #5b7180;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 30rem) {
