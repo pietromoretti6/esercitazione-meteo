@@ -1,8 +1,13 @@
 :root {
-  font-family: Georgia, 'Times New Roman', serif;
+  --ink: #17324d;
+  --muted: #5b7180;
+  --line: #c7d9d8;
+  --accent: #c46645;
+  --surface: rgba(255, 255, 255, 0.72);
+  font-family: 'Trebuchet MS', Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #17324d;
+  color: var(--ink);
   background: #edf5f4;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,7 +19,9 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #edf5f4 0%, #d7e9e8 55%, #f8f4e9 100%);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.8), transparent 32rem),
+    linear-gradient(135deg, #edf5f4 0%, #d7e9e8 55%, #f8f4e9 100%);
 }
 
 #app {
@@ -23,29 +30,35 @@ body {
 
 .weather-app {
   box-sizing: border-box;
-  width: min(100% - 2rem, 58rem);
+  width: min(100% - 2rem, 62rem);
   margin: 0 auto;
-  padding: 4rem 0;
+  padding: 3.5rem 0 5rem;
 }
 
 .app-header {
   max-width: 38rem;
-  margin-bottom: 2rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
 }
 
 .eyebrow {
   margin: 0 0 0.75rem;
-  color: #b15d3f;
-  font-family: Arial, sans-serif;
-  font-size: 0.75rem;
+  color: var(--accent);
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
+h1,
+h2,
+h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
 h1 {
   margin: 0;
-  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-size: clamp(2.6rem, 8vw, 4.8rem);
   line-height: 0.98;
   letter-spacing: 0;
 }
@@ -53,19 +66,21 @@ h1 {
 .intro {
   margin: 1.25rem 0 0;
   color: #466274;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .search-form {
-  padding: 1.25rem;
-  border-top: 1px solid #a7c2c0;
-  border-bottom: 1px solid #a7c2c0;
+  padding: 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  box-shadow: 0 0.75rem 2rem rgba(23, 50, 77, 0.06);
 }
 
 .search-form label {
   display: block;
   margin-bottom: 0.5rem;
-  font-family: Arial, sans-serif;
+  color: var(--muted);
   font-size: 0.85rem;
   font-weight: 700;
 }
@@ -79,8 +94,8 @@ input,
 button {
   box-sizing: border-box;
   min-height: 3rem;
-  border: 1px solid #8eacad;
-  border-radius: 0;
+  border: 1px solid #9fb8b8;
+  border-radius: 0.45rem;
   font: inherit;
 }
 
@@ -88,24 +103,29 @@ input {
   min-width: 0;
   flex: 1;
   padding: 0.75rem 1rem;
-  color: #17324d;
+  color: var(--ink);
   background: #fff;
 }
 
 button {
   padding: 0.75rem 1.5rem;
-  border-color: #17324d;
+  border-color: var(--ink);
   color: #fff;
-  background: #17324d;
-  font-family: Arial, sans-serif;
+  background: var(--ink);
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 
 button:hover {
-  background: #b15d3f;
-  border-color: #b15d3f;
+  border-color: var(--accent);
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
 }
 
 button:disabled {
@@ -121,17 +141,17 @@ button:focus-visible {
 
 .weather-results {
   min-height: 12rem;
-  padding: 2rem 1.25rem;
+  padding: 2.75rem 0 0;
 }
 
 .empty-state {
   margin: 0;
-  color: #5b7180;
+  color: var(--muted);
   text-align: center;
 }
 
 .location-result {
-  padding: 1rem 0;
+  padding: 0 0 1.25rem;
 }
 
 .location-result h2 {
@@ -141,8 +161,7 @@ button:focus-visible {
 
 .coordinates {
   margin: 0;
-  color: #5b7180;
-  font-family: Arial, sans-serif;
+  color: var(--muted);
   font-size: 0.9rem;
 }
 
@@ -150,14 +169,16 @@ button:focus-visible {
   display: grid;
   grid-template-columns: minmax(12rem, 1fr) 1.4fr;
   gap: 1.5rem;
-  margin: 1rem 0 3rem;
-  padding: 1.5rem;
+  margin: 0 0 3rem;
+  padding: 1.75rem;
+  border-radius: 0.75rem;
   color: #fff;
-  background: #17324d;
+  background: linear-gradient(135deg, #17324d, #28536c);
+  box-shadow: 0 1rem 2rem rgba(23, 50, 77, 0.16);
 }
 
 .current-summary .eyebrow {
-  color: #d68b68;
+  color: #f0a17d;
 }
 
 .current-summary h3 {
@@ -166,10 +187,16 @@ button:focus-visible {
   line-height: 1;
 }
 
+.current-weather-icon {
+  display: block;
+  margin: 0.75rem 0 0.25rem;
+  font-size: 3rem;
+  line-height: 1;
+}
+
 .current-summary > p:last-child {
   margin: 0.5rem 0 0;
   color: #d7e9e8;
-  font-family: Arial, sans-serif;
 }
 
 .weather-details {
@@ -182,12 +209,7 @@ button:focus-visible {
 
 .weather-details div {
   padding-top: 0.65rem;
-  border-top: 1px solid #496276;
-}
-
-.weather-details dt,
-.weather-details dd {
-  font-family: Arial, sans-serif;
+  border-top: 1px solid #527187;
 }
 
 .weather-details dt {
@@ -216,22 +238,36 @@ button:focus-visible {
 .forecast-card {
   min-height: 9rem;
   padding: 1rem;
-  border: 1px solid #a7c2c0;
-  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: var(--surface);
+  box-shadow: 0 0.5rem 1.2rem rgba(23, 50, 77, 0.05);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.forecast-card:hover {
+  transform: translateY(-0.2rem);
+  box-shadow: 0 0.8rem 1.5rem rgba(23, 50, 77, 0.1);
 }
 
 .forecast-card h3 {
   margin: 0;
-  font-family: Arial, sans-serif;
+  color: var(--ink);
   font-size: 0.9rem;
   text-transform: capitalize;
 }
 
+.weather-icon {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 2.25rem;
+  line-height: 1;
+}
+
 .forecast-condition {
   min-height: 2.5rem;
-  margin: 1rem 0 0;
+  margin: 0.65rem 0 0;
   color: #466274;
-  font-family: Arial, sans-serif;
   font-size: 0.8rem;
 }
 
@@ -240,7 +276,6 @@ button:focus-visible {
   gap: 0.5rem;
   align-items: baseline;
   margin: 0;
-  font-family: Arial, sans-serif;
 }
 
 .forecast-temperatures strong {
@@ -248,12 +283,20 @@ button:focus-visible {
 }
 
 .forecast-temperatures span {
-  color: #5b7180;
+  color: var(--muted);
 }
 
 @media (max-width: 30rem) {
   .weather-app {
-    padding: 2.5rem 0;
+    padding: 2.5rem 0 3rem;
+  }
+
+  .app-header {
+    margin-bottom: 2rem;
+  }
+
+  .search-form {
+    padding: 1rem;
   }
 
   .search-controls {
@@ -266,5 +309,6 @@ button:focus-visible {
 
   .current-weather {
     grid-template-columns: 1fr;
+    padding: 1.25rem;
   }
 }

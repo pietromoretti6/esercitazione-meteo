@@ -22,6 +22,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </section>
   </main>
 `
+import './style.css'
+import { mountWeatherApp } from './weatherApp'
+
+mountWeatherApp(document.querySelector<HTMLDivElement>('#app')!)
 
 type GeocodingResult = {
   name: string
