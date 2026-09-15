@@ -1,4 +1,5 @@
 import './style.css'
+import { fetchWeatherApi } from 'openmeteo'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <main class="weather-app">
@@ -33,6 +34,24 @@ type GeocodingResponse = {
   results?: GeocodingResult[]
 }
 
+type WeatherData = {
+  current: {
+    temperature: number
+    humidity: number
+    apparentTemperature: number
+    isDay: number
+    precipitation: number
+    weatherCode: number
+    windSpeed: number
+  }
+  daily: {
+    date: Date
+    weatherCode: number
+    temperatureMax: number
+    temperatureMin: number
+  }[]
+}
+
 const searchForm = document.querySelector<HTMLFormElement>('#search-form')!
 const locationInput = document.querySelector<HTMLInputElement>('#location-input')!
 const searchButton = searchForm.querySelector<HTMLButtonElement>('button')!
@@ -55,6 +74,51 @@ async function searchLocation(location: string): Promise<GeocodingResult | null>
   return data.results?.[0] ?? null
 }
 
+const forecastUrl = 'https://api.open-meteo.com/v1/forecast'
+
+async function fetchForecast(latitude: number, longitude: number): Promise<WeatherData> {
+  const params = {
+    latitude: [latitude],
+    longitude: [longitude],
+    current: 'temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m',
+    daily: 'weather_code,temperature_2m_max,temperature_2m_min',
+    timezone: 'auto',
+  }
+
+  const responses = await fetchWeatherApi(forecastUrl, params)
+  const response = responses[0]
+
+  if (!response) {
+    throw new Error('Le previsioni non sono disponibili.')
+  }
+
+  const utcOffsetSeconds = response.utcOffsetSeconds()
+  const current = response.current()!
+  const daily = response.daily()!
+  const dailyDates = Array.from(
+    { length: Number(daily.timeEnd() - daily.time()) / daily.interval() },
+    (_, index) => new Date((Number(daily.time()) + index * daily.interval() + utcOffsetSeconds) * 1000),
+  )
+
+  return {
+    current: {
+      temperature: current.variables(0)!.value(),
+      humidity: current.variables(1)!.value(),
+      apparentTemperature: current.variables(2)!.value(),
+      isDay: current.variables(3)!.value(),
+      precipitation: current.variables(4)!.value(),
+      weatherCode: current.variables(5)!.value(),
+      windSpeed: current.variables(6)!.value(),
+    },
+    daily: dailyDates.map((date, index) => ({
+      date,
+      weatherCode: daily.variables(0)!.valuesArray()![index],
+      temperatureMax: daily.variables(1)!.valuesArray()![index],
+      temperatureMin: daily.variables(2)!.valuesArray()![index],
+    })),
+  }
+}
+
 searchForm.addEventListener('submit', async (event) => {
   event.preventDefault()
 
@@ -73,11 +137,17 @@ searchForm.addEventListener('submit', async (event) => {
       return
     }
 
+    const forecast = await fetchForecast(result.latitude, result.longitude)
+
     weatherResults.innerHTML = `
       <div class="location-result">
         <p class="eyebrow">Località trovata</p>
         <h2>${result.name}, ${result.country}</h2>
         <p>Coordinate: ${result.latitude.toFixed(4)}, ${result.longitude.toFixed(4)}</p>
+        <p>Temperatura attuale: ${forecast.current.temperature.toFixed(1)} °C</p>
+        <p>Precipitazioni: ${forecast.current.precipitation.toFixed(1)} mm</p>
+        <p>Vento: ${forecast.current.windSpeed.toFixed(1)} km/h</p>
+        <p>Previsioni ricevute: ${forecast.daily.length} giorni</p>
       </div>
     `
   } catch {
