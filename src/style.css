@@ -139,11 +139,116 @@ button:focus-visible {
   font-size: clamp(1.75rem, 5vw, 3rem);
 }
 
-.location-result p:last-child {
+.coordinates {
   margin: 0;
   color: #5b7180;
   font-family: Arial, sans-serif;
   font-size: 0.9rem;
+}
+
+.current-weather {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) 1.4fr;
+  gap: 1.5rem;
+  margin: 1rem 0 3rem;
+  padding: 1.5rem;
+  color: #fff;
+  background: #17324d;
+}
+
+.current-summary .eyebrow {
+  color: #d68b68;
+}
+
+.current-summary h3 {
+  margin: 0.25rem 0 0;
+  font-size: clamp(3rem, 9vw, 5rem);
+  line-height: 1;
+}
+
+.current-summary > p:last-child {
+  margin: 0.5rem 0 0;
+  color: #d7e9e8;
+  font-family: Arial, sans-serif;
+}
+
+.weather-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 0;
+  align-content: center;
+}
+
+.weather-details div {
+  padding-top: 0.65rem;
+  border-top: 1px solid #496276;
+}
+
+.weather-details dt,
+.weather-details dd {
+  font-family: Arial, sans-serif;
+}
+
+.weather-details dt {
+  color: #b8c9d0;
+  font-size: 0.75rem;
+}
+
+.weather-details dd {
+  margin: 0.15rem 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.section-heading h3 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.forecast-card {
+  min-height: 9rem;
+  padding: 1rem;
+  border: 1px solid #a7c2c0;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.forecast-card h3 {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.forecast-condition {
+  min-height: 2.5rem;
+  margin: 1rem 0 0;
+  color: #466274;
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+}
+
+.forecast-temperatures {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.forecast-temperatures strong {
+  font-size: 1.5rem;
+}
+
+.forecast-temperatures span {
+  color: #5b7180;
 }
 
 @media (max-width: 30rem) {
@@ -157,5 +262,9 @@ button:focus-visible {
 
   button {
     width: 100%;
+  }
+
+  .current-weather {
+    grid-template-columns: 1fr;
   }
 }
