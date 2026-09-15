@@ -1,24 +1,24 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
+  <main class="weather-app">
+    <header class="app-header">
+      <p class="eyebrow">Open-Meteo</p>
+      <h1>Meteo in un luogo</h1>
+      <p class="intro">Cerca una località per vedere il meteo attuale e le previsioni.</p>
+    </header>
+
+    <form id="search-form" class="search-form">
+      <label for="location-input">Nome del luogo</label>
+      <div class="search-controls">
+        <input id="location-input" name="location" type="search" placeholder="Es. Roma" autocomplete="off" required />
+        <button type="submit">Cerca</button>
+      </div>
+    </form>
+
+    <section id="weather-results" class="weather-results" aria-live="polite">
+      <p class="empty-state">Inserisci una località per iniziare.</p>
+    </section>
+  </main>
 `
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
